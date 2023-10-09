@@ -1,16 +1,30 @@
-// Navigation.js
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom"; // Используйте NavLink
+import classes from "./Navigation.module.css";
 
 function Navigation() {
   return (
     <nav>
-      <ul>
+      <ul className={classes.Navigation}>
         <li>
-          <Link to="/results">Результаты</Link>
+          <NavLink to="/results" activeclassname={classes.activeLink}>
+            Результаты
+          </NavLink>
         </li>
         <li>
-          <Link to="/calendar">Календарь</Link>
+          <NavLink to="/calendar" activeclassname={classes.activeLink}>
+            Календарь
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/raitings" activeclassname={classes.activeLink}>
+            Рейтинги
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/org" activeclassname={classes.activeLink}>
+            Организаторам
+          </NavLink>
         </li>
       </ul>
     </nav>
