@@ -1,28 +1,16 @@
 import React, { useState } from "react";
 import classes from "./Filters.module.css";
 import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar";
 
-function EventFilters({ onFilterChange }) {
+function EventFilters({ initialLocation, onFilterChange }) {
   const [selectedSport, setSelectedSport] = useState(null);
   const [selectedEventType, setSelectedEventType] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedAge, setSelectedAge] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(initialLocation);
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const applyFilters = () => {
-    const filters = {
-      sport: selectedSport,
-      eventType: selectedEventType,
-      status: selectedStatus,
-      age: selectedAge,
-      location: selectedLocation,
-      date: selectedDate,
-    };
-    onFilterChange(filters);
-  };
   const handleFiltersChange = () => {
     const filters = {
       sport: selectedSport,
@@ -37,7 +25,7 @@ function EventFilters({ onFilterChange }) {
   return (
     <div className={classes.filters}>
       <Dropdown
-        style={{ width: "200px" }}
+        style={{ width: "180px" }}
         value={selectedSport}
         options={sportsOptions}
         onChange={(e) => {
@@ -50,7 +38,20 @@ function EventFilters({ onFilterChange }) {
         placeholder="Вид спорта"
       />
       <Dropdown
-        style={{ width: "200px" }}
+        style={{ width: "180px" }}
+        value={selectedEventType}
+        options={selectedEventOptions}
+        onChange={(e) => {
+          setSelectedEventType(e.value);
+          handleFiltersChange(); // Применить фильтры после изменения значения
+        }}
+        optionLabel="label" // Укажите поле, по которому будет отображаться значение в выпадающем списке
+        filter // Включить поле для поиска
+        filterBy="label" // Укажите поле, по которому будет выполняться поиск
+        placeholder="Вид мероприятия"
+      />
+      <Dropdown
+        style={{ width: "180px" }}
         value={selectedStatus}
         options={statusOptions}
         onChange={(e) => {
@@ -62,7 +63,7 @@ function EventFilters({ onFilterChange }) {
         placeholder="Cтатус мероприятия"
       />
       <Dropdown
-        style={{ width: "200px" }}
+        style={{ width: "180px" }}
         value={selectedAge}
         options={ageOptions}
         onChange={(e) => {
@@ -74,7 +75,7 @@ function EventFilters({ onFilterChange }) {
         placeholder="Возрастная группа"
       />
       <Dropdown
-        style={{ width: "200px" }}
+        style={{ width: "180px" }}
         value={selectedLocation}
         options={locationOptions}
         onChange={(e) => {
@@ -84,7 +85,7 @@ function EventFilters({ onFilterChange }) {
         placeholder="Место проведения"
       />
       <Calendar
-        style={{ width: "200px" }}
+        style={{ width: "180px" }}
         value={selectedDate}
         onChange={(e) => {
           setSelectedDate(e.value);
@@ -116,6 +117,11 @@ const ageOptions = [
 const locationOptions = [
   { label: "Москва", value: "Москва" },
   { label: "Питер", value: "Питер" },
+  // Добавьте другие возрастные группы
+];
+const selectedEventOptions = [
+  { label: "турниры", value: "турниры" },
+  { label: "чемпионаты", value: "чемпионаты" },
   // Добавьте другие возрастные группы
 ];
 export default EventFilters;
