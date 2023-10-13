@@ -5,8 +5,8 @@ import banner from "../../assets/banner.png";
 import Card from "../../components/Card/Card";
 // import eventsData from "../../assets/events.json";
 
-const queryParams = new URLSearchParams(window.location.search);
-const locationParam = queryParams.get("location");
+// const queryParams = new URLSearchParams(window.location.search);
+// const locationParam = queryParams.get("location");
 
 function CalendarPage() {
   const eventsData = [
@@ -143,18 +143,9 @@ function CalendarPage() {
     },
     // Добавьте другие спортивные мероприятия по аналогии
   ];
-
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [locationParam, setLocationParam] = useState(null);
-
-  // Загрузка данных с сервера или из JSON файла
-  useEffect(() => {
-    // Вместо этого места загрузите данные из API или JSON файла.
-    // Здесь eventsData должен быть установлен на загруженные данные.
-    // setEventsData(loadedEventData);
-  }, []);
-
-  // Функция для фильтрации событий
+  useEffect(() => {}, []);
   const filterEvents = (filters) => {
     const filtered = eventsData.filter((event) => {
       if (filters.sport && event.sport !== filters.sport) {
@@ -172,18 +163,19 @@ function CalendarPage() {
       if (filters.location && event.location !== filters.location) {
         return false;
       }
-      if (filters.date && event.date !== filters.date) {
+      if (filters.date && event.startTime !== filters.date) {
         return false;
       }
       return true;
     });
     setFilteredEvents(filtered);
   };
+
   return (
     <div className={classes.Calendar}>
       <img className={classes.calendarImage} alt="main banner" src={banner} />
       <EventFilters
-        initialLocation={locationParam}
+        // initialLocation={locationParam}
         onFilterChange={filterEvents}
         events={eventsData}
       />

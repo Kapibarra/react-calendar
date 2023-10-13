@@ -34,9 +34,9 @@ function EventFilters({ initialLocation, onFilterChange, events }) {
       location: selectedLocation,
       date: selectedDate,
     };
-    setSelectedFilters(filters);
     onFilterChange(filters);
   };
+
   const resetFilters = () => {
     setSelectedSport(null);
     setSelectedEventType(null);
@@ -59,7 +59,10 @@ function EventFilters({ initialLocation, onFilterChange, events }) {
       <Dropdown
         style={{ width: "180px" }}
         value={selectedSport}
-        options={sportsOptions.map((sport) => ({ label: sport, value: sport }))}
+        options={[
+          { label: "Все виды спорта", value: null }, // Добавьте эту опцию
+          ...sportsOptions.map((sport) => ({ label: sport, value: sport })),
+        ]}
         onChange={(e) => {
           setSelectedSport(e.value);
           handleFiltersChange();
