@@ -3,14 +3,28 @@ import classes from "./Filters.module.css";
 import { Dropdown } from "primereact/dropdown";
 import { Calendar } from "primereact/calendar";
 
-function EventFilters({ initialLocation, onFilterChange }) {
+function EventFilters({ initialLocation, onFilterChange, events }) {
+  // Создайте списки уникальных значений для фильтров
+  const sportsOptions = [...new Set(events.map((event) => event.sport))];
+  const eventTypeOptions = [...new Set(events.map((event) => event.eventType))];
+  const statusOptions = [...new Set(events.map((event) => event.status))];
+  const ageOptions = [...new Set(events.map((event) => event.age))];
+  const locationOptions = [...new Set(events.map((event) => event.location))];
+
   const [selectedSport, setSelectedSport] = useState(null);
   const [selectedEventType, setSelectedEventType] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedAge, setSelectedAge] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(initialLocation);
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-
+  const [selectedFilters, setSelectedFilters] = useState({
+    sport: null,
+    eventType: null,
+    status: null,
+    age: null,
+    location: null,
+    date: null,
+  });
   const handleFiltersChange = () => {
     const filters = {
       sport: selectedSport,
@@ -20,64 +34,81 @@ function EventFilters({ initialLocation, onFilterChange }) {
       location: selectedLocation,
       date: selectedDate,
     };
+    setSelectedFilters(filters);
     onFilterChange(filters);
+  };
+  const resetFilters = () => {
+    setSelectedSport(null);
+    setSelectedEventType(null);
+    setSelectedStatus(null);
+    setSelectedAge(null);
+    setSelectedLocation(null);
+    setSelectedDate(null);
+    setSelectedFilters({
+      sport: null,
+      eventType: null,
+      status: null,
+      age: null,
+      location: null,
+      date: null,
+    });
+    onFilterChange({});
   };
   return (
     <div className={classes.filters}>
       <Dropdown
         style={{ width: "180px" }}
         value={selectedSport}
-        options={sportsOptions}
+        options={sportsOptions.map((sport) => ({ label: sport, value: sport }))}
         onChange={(e) => {
           setSelectedSport(e.value);
-          handleFiltersChange(); // Применить фильтры после изменения значения
+          handleFiltersChange();
         }}
-        optionLabel="label" // Укажите поле, по которому будет отображаться значение в выпадающем списке
-        filter // Включить поле для поиска
-        filterBy="label" // Укажите поле, по которому будет выполняться поиск
         placeholder="Вид спорта"
       />
       <Dropdown
         style={{ width: "180px" }}
         value={selectedEventType}
-        options={selectedEventOptions}
+        options={eventTypeOptions.map((eventType) => ({
+          label: eventType,
+          value: eventType,
+        }))}
         onChange={(e) => {
           setSelectedEventType(e.value);
-          handleFiltersChange(); // Применить фильтры после изменения значения
+          handleFiltersChange();
         }}
-        optionLabel="label" // Укажите поле, по которому будет отображаться значение в выпадающем списке
-        filter // Включить поле для поиска
-        filterBy="label" // Укажите поле, по которому будет выполняться поиск
         placeholder="Вид мероприятия"
       />
       <Dropdown
         style={{ width: "180px" }}
         value={selectedStatus}
-        options={statusOptions}
+        options={statusOptions.map((status) => ({
+          label: status,
+          value: status,
+        }))}
         onChange={(e) => {
           setSelectedStatus(e.value);
           handleFiltersChange();
         }}
-        filter // Включить поле для поиска
-        filterBy="label" // Укажите поле, по которому будет выполняться поиск
         placeholder="Cтатус мероприятия"
       />
       <Dropdown
         style={{ width: "180px" }}
         value={selectedAge}
-        options={ageOptions}
+        options={ageOptions.map((age) => ({ label: age, value: age }))}
         onChange={(e) => {
           setSelectedAge(e.value);
           handleFiltersChange();
         }}
-        filter // Включить поле для поиска
-        filterBy="label" // Укажите поле, по которому будет выполняться поиск
         placeholder="Возрастная группа"
       />
       <Dropdown
         style={{ width: "180px" }}
         value={selectedLocation}
-        options={locationOptions}
+        options={locationOptions.map((location) => ({
+          label: location,
+          value: location,
+        }))}
         onChange={(e) => {
           setSelectedLocation(e.value);
           handleFiltersChange();
@@ -93,35 +124,11 @@ function EventFilters({ initialLocation, onFilterChange }) {
         }}
         placeholder="Дата проведения"
       />
+      <button className={classes.resetButton} onClick={resetFilters}>
+        Сбросить фильтры
+      </button>
     </div>
   );
 }
 
-const sportsOptions = [
-  { label: "Футбол", value: "Футбол" },
-  { label: "Баскетбол", value: "Баскетбол" },
-  // Добавьте другие виды спорта
-];
-
-const statusOptions = [
-  { label: "Активное", value: "Активное" },
-  { label: "Завершенное", value: "Завершенное" },
-  // Добавьте другие статусы мероприятия
-];
-
-const ageOptions = [
-  { label: "Дети (6-12)", value: "Дети (6-12)" },
-  { label: "Подростки (13-18)", value: "Подростки (13-18)" },
-  // Добавьте другие возрастные группы
-];
-const locationOptions = [
-  { label: "Москва", value: "Москва" },
-  { label: "Питер", value: "Питер" },
-  // Добавьте другие возрастные группы
-];
-const selectedEventOptions = [
-  { label: "турниры", value: "турниры" },
-  { label: "чемпионаты", value: "чемпионаты" },
-  // Добавьте другие возрастные группы
-];
 export default EventFilters;
