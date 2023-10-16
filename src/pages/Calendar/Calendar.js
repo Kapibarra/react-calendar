@@ -144,7 +144,7 @@ function CalendarPage() {
     // Добавьте другие спортивные мероприятия по аналогии
   ];
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [locationParam, setLocationParam] = useState(null);
+  // const [locationParam, setLocationParam] = useState(null);
   useEffect(() => {}, []);
   const filterEvents = (filters) => {
     const filtered = eventsData.filter((event) => {
@@ -180,7 +180,7 @@ function CalendarPage() {
         events={eventsData}
       />
       <div className={classes.CardWrapper}>
-        {filteredEvents.map((event) => (
+        {eventsData.map((event) => (
           <Card
             key={event.id}
             mainImg={event.mainImg}

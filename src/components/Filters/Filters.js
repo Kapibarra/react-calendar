@@ -59,6 +59,8 @@ function EventFilters({ initialLocation, onFilterChange, events }) {
       <Dropdown
         style={{ width: "180px" }}
         value={selectedSport}
+        filter // Включение фильтра
+        showClear // Показывать кнопку очистки поля
         options={[
           { label: "Все виды спорта", value: null }, // Добавьте эту опцию
           ...sportsOptions.map((sport) => ({ label: sport, value: sport })),
@@ -72,6 +74,8 @@ function EventFilters({ initialLocation, onFilterChange, events }) {
       <Dropdown
         style={{ width: "180px" }}
         value={selectedEventType}
+        filter // Включение фильтра
+        showClear // Показывать кнопку очистки поля
         options={eventTypeOptions.map((eventType) => ({
           label: eventType,
           value: eventType,
@@ -85,6 +89,8 @@ function EventFilters({ initialLocation, onFilterChange, events }) {
       <Dropdown
         style={{ width: "180px" }}
         value={selectedStatus}
+        filter // Включение фильтра
+        showClear // Показывать кнопку очистки поля
         options={statusOptions.map((status) => ({
           label: status,
           value: status,
@@ -98,6 +104,8 @@ function EventFilters({ initialLocation, onFilterChange, events }) {
       <Dropdown
         style={{ width: "180px" }}
         value={selectedAge}
+        filter // Включение фильтра
+        showClear // Показывать кнопку очистки поля
         options={ageOptions.map((age) => ({ label: age, value: age }))}
         onChange={(e) => {
           setSelectedAge(e.value);
@@ -108,6 +116,8 @@ function EventFilters({ initialLocation, onFilterChange, events }) {
       <Dropdown
         style={{ width: "180px" }}
         value={selectedLocation}
+        filter // Включение фильтра
+        showClear // Показывать кнопку очистки поля
         options={locationOptions.map((location) => ({
           label: location,
           value: location,
