@@ -3,8 +3,8 @@ import classes from "./Calendar.module.css";
 import EventFilters from "../../components/Filters/Filters";
 import banner from "../../assets/banner.png";
 import Card from "../../components/Card/Card";
-// import eventsData from "../../assets/events.json";
 
+// import eventsData from "../../assets/events.json";
 // const queryParams = new URLSearchParams(window.location.search);
 // const locationParam = queryParams.get("location");
 
@@ -143,34 +143,30 @@ function CalendarPage() {
     },
     // Добавьте другие спортивные мероприятия по аналогии
   ];
-  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState(eventsData); // Используйте filteredEvents для отображения событий
   // const [locationParam, setLocationParam] = useState(null);
   useEffect(() => {}, []);
   const filterEvents = (filters) => {
-    const filtered = eventsData.filter((event) => {
-      if (filters.sport && event.sport !== filters.sport) {
-        return false;
-      }
-      if (filters.eventType && event.eventType !== filters.eventType) {
-        return false;
-      }
-      if (filters.status && event.status !== filters.status) {
-        return false;
-      }
-      if (filters.age && event.age !== filters.age) {
-        return false;
-      }
-      if (filters.location && event.location !== filters.location) {
-        return false;
-      }
-      if (filters.date && event.startTime !== filters.date) {
-        return false;
-      }
-      return true;
-    });
-    setFilteredEvents(filtered);
+    setFilteredEvents(
+      eventsData.filter((event) => {
+        return (
+          (!filters.sport || event.sport === filters.sport) &&
+          (!filters.eventType || event.eventType === filters.eventType) &&
+          (!filters.status || event.status === filters.status) &&
+          (!filters.age || event.age === filters.age) &&
+          (!filters.location || event.location === filters.location) &&
+          (!filters.date || isDateInRange(event, filters.date))
+        );
+      })
+    );
   };
-
+  // Функция для проверки, находится ли дата в диапазоне
+  const isDateInRange = (event, filterDate) => {
+    const startDate = new Date(event.startTime);
+    const endDate = new Date(event.endTime);
+    const filter = new Date(filterDate);
+    return filter >= startDate && filter <= endDate;
+  };
   return (
     <div className={classes.Calendar}>
       <img className={classes.calendarImage} alt="main banner" src={banner} />
@@ -180,7 +176,7 @@ function CalendarPage() {
         events={eventsData}
       />
       <div className={classes.CardWrapper}>
-        {eventsData.map((event) => (
+        {filteredEvents.map((event) => (
           <Card
             key={event.id}
             mainImg={event.mainImg}

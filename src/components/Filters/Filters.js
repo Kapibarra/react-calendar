@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./Filters.module.css";
 import { Dropdown } from "primereact/dropdown";
 import { Calendar } from "primereact/calendar";
@@ -36,6 +36,18 @@ function EventFilters({ initialLocation, onFilterChange, events }) {
     };
     onFilterChange(filters);
   };
+
+  useEffect(() => {
+    // Внутри useEffect() можно выполнить побочный эффект после обновления состояния.
+    handleFiltersChange();
+  }, [
+    selectedSport,
+    selectedEventType,
+    selectedStatus,
+    selectedAge,
+    selectedLocation,
+    selectedDate,
+  ]);
 
   const resetFilters = () => {
     setSelectedSport(null);
